@@ -27,8 +27,8 @@ Function list
 * allstack  
 * pc  
 * code  
-* dword  
-* qword  
+* dtel
+* grep
 * jj  
 * jji  
 * cc  
@@ -82,13 +82,12 @@ double型版telescope
 Usage: dtel [addr] [count]
 ```
 
-* xgrep  
+* grep  
 cmdコマンドの出力をregexp正規表現でgrepして抽出する。  
-grepというaliasがかけられている。  
 ※このコマンドを使用するためには別途 https://github.com/miyagaw61/mgtools を導入する必要あり  
-![xgrep](http://i.imgur.com/jy2xbEq.png)
+![grep](http://i.imgur.com/jy2xbEq.png)
 ```
-Usage: xgrep [cmd] [regexp]
+Usage: grep [cmd] [regexp]
 ```
 
 * jj  

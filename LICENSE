@@ -15,6 +15,7 @@ functions included in $HOME/peda/mgpeda/mgpeda.py shown below
 - pc
 - code
 - dtel
+- grep
 - jj
 - jji
 - cc
