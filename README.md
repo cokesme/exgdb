@@ -37,7 +37,7 @@ Function list
 * uui  
 * uc  
 * ii  
-* parseh  
+* ph  
 * ci  
 * cix  
 * allci  
@@ -193,7 +193,4 @@ aliases
 * nr : stepuntil ret  
 * nj : stepuntil call,jmp,je,jne,jb,ja  
 * nt : stepuntil test,cmp  
-* ph : parseh
-* grep : xgrep
-
 
