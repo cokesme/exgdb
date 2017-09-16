@@ -1,5 +1,9 @@
 # mgpeda - extension plugins for the gdb-peda&Pwngdb.  
 
+[![Twitter](https://imgur.com/Ibo0Twr.png)](https://twitter.com/miyagaw61)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://choosealicense.com/licenses/mit/)
+, GPL-3.0, Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+
 gdb-peda,Pwngdbの拡張プラグインです。  
 **元々のpedaのソースコードは改造していないため、環境を壊すことはありません。**  
 **mgpedaを使いたくなくなったら~/.gdbinitからsource ~/peda/mgpeda/mgpeda.pyとsource ~/Pwngdb/angelheap/mgpeda/gdbinit.pyを削除するだけで大丈夫です。**  
