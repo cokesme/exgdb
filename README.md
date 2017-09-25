@@ -84,7 +84,6 @@ Usage: dtel [addr] [count]
 
 * grep  
 cmdコマンドの出力をregexp正規表現でgrepして抽出する。  
-※このコマンドを使用するためには別途 https://github.com/miyagaw61/mgtools を導入する必要あり  
 ![grep](http://i.imgur.com/jy2xbEq.png)
 ```
 Usage: grep [cmd] [regexp]
