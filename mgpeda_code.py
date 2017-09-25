@@ -182,7 +182,7 @@
         msg(text)
         return
 
-    def ix(self, *arg):
+    def tel(self, *arg):
         """
         Usage:
             ix [address] [count]
