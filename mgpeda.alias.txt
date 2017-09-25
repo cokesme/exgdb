@@ -24,7 +24,6 @@ Alias('fullcix','allcix')
 Alias('grep','xgrep')
 Alias('f','nii')
 Alias('parseh','ph')
-Alias('tel', 'ix')
 #----added by me----#
 
 

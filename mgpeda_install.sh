@@ -70,6 +70,11 @@ cp  -a $HOME/Pwngdb/pwngdb.py $HOME/Pwngdb/angelheap/mgpeda
 echo "peda.execute(\"set prompt \\\001%s\\\002\" % red(\"\\\002gdb-peda\$ \\\001\",\"light\")) # custom prompt" >> ~/peda/mgpeda/mgpeda.py
 sed -i -e "s/─/=/g" $HOME/peda/lib/utils.py
 sed -i -e "s@Copyright (C) 2012 Long Le Dinh <longld at vnsecurity.net>@Copyright (C) 2012 Long Le Dinh <longld at vnsecurity.net> and \n#       Copyright (C) 2017 Taisei Miyagawa <miyagaw61 at https://miyagaw61/github.io>\n#       detail: mgpeda/LICENSE@g" $HOME/peda/mgpeda/mgpeda.py
+if test ! -e $HOME/peda/mgpeda/lib ;then
+    mkdir $HOME/peda/mgpeda/lib
+    git clone https://github.com/miyagaw61/enert $HOME/peda/mgpeda/lib
+fi
+sed -i -e "s@\"/lib/\")@\"/lib/\")\nfrom enert import \*@g" $HOME/peda/mgpeda/mgpeda.py
 echo -n "cp -a ./mggdbinit $HOME/.gdbinit [y/n] : "
 read ans
 case $ans in

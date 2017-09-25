@@ -83,7 +83,7 @@
         peda.execute('stack %s' % arg)
         return
     
-    def grep(self,*arg):
+    def xgrep(self,*arg):
         """
         hogehoge
         """
@@ -97,10 +97,10 @@
         fd = open("peda-out-color.tmp", "w")
         fd.write(out)
         fd.close()
-####################################
-        #os.system("wcat peda-out-color.tmp > peda-out-noncolor.tmp")
-        #os.system("cp -a peda-out-noncolor.tmp peda-out.tmp")
-        gdb.execute("shell wcat peda-out-color.tmp > peda-out-noncolor.tmp")
+        #gdb.execute("shell wcat peda-out-color.tmp > peda-out-noncolor.tmp")
+        f = fl("peda-out-color.tmp")
+        white_data = fl("peda-out-color.tmp").white_data()
+        fl("peda-out-noncolor.tmp").write(white_data)
         gdb.execute("shell cp -a peda-out-noncolor.tmp peda-out.tmp")
         out = open("peda-out.tmp", "r").read()
         res = regex_arg.findall(out)
