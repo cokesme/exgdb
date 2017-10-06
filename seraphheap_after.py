@@ -453,14 +453,14 @@ def ci(victim):
         prev_size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
         cmd = "x/" + word + hex(chunkaddr + capsize*1)
         size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
+        aligned_size = size & 0xfffffffffffffff8
         cmd = "x/" + word + hex(chunkaddr + capsize*2)
         fd = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
         cmd = "x/" + word + hex(chunkaddr + capsize*3)
         bk = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        cmd = "x/" + word + hex(chunkaddr + (size & 0xfffffffffffffff8) + capsize)
+        cmd = "x/" + word + hex(chunkaddr + aligned_size + capsize)
         nextsize = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        aligned_size = size & 0xfffffffffffffff8
-        status = aligned_size & 1    
+        status = nextsize & 1
         #print("==================================")
         #print("            Chunk info            ")
         #print("==================================")
@@ -499,7 +499,7 @@ def ci(victim):
         #print("\033[32mis_mmap :\033[37m %x                    " % (size & 2) )
         #print("\033[32mnon_mainarea :\033[37m %x                     " % (size & 4) )
         unlinkable_flag = 0
-        if not status:
+        if not used_flag:
             #print("\033[32mfd :\033[37m 0x%x                  " % fd)
             #print("\033[32mbk :\033[37m 0x%x                  " % bk)
             fd_str = white(hex(fd))
