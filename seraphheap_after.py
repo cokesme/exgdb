@@ -539,7 +539,6 @@ def ci(victim):
         print("Can't access memory")
 
 def cix(victim):
-    import pdb
     global fastchunk
     if capsize == 0 :
         arch = getarch()
@@ -552,7 +551,6 @@ def cix(victim):
             lst = []
             getheaplist(lst)
             chunkaddr = lst[victim]
-        pdb.set_trace()
         cmd = "x/" + word + hex(chunkaddr)
         prev_size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
         cmd = "x/" + word + hex(chunkaddr + capsize*1)
