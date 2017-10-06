@@ -285,16 +285,21 @@ def ph(arena=None):
             if status :
                 if chunkaddr in fastchunk :
                     msg = "\033[1;34m Freed \033[0m"
-                    chunkaddr_str = blue(hex(chunkaddr), "bold")
+                    chunkaddr_str = blue(hex(chunkaddr))
                     print('{:<32}0x{:<17x}{:<102}{:<18}{:<18}'.format(chunkaddr_str, prev_size, hex(size)+bits, hex(fd), "None"))
                 else :
                     msg = "\033[31m Used \033[0m"
                     chunkaddr_str = green(hex(chunkaddr), "bold")
                     print('{:<32}0x{:<17x}{:<102}{:<18}{:<18}'.format(chunkaddr_str, prev_size, hex(size)+bits, "None", "None"))
             else :
-                msg = "\033[1;34m Freed \033[0m"
-                chunkaddr_str = blue(hex(chunkaddr), "bold")
-                print('{:<32}0x{:<17x}{:<102}{:<18}{:<18}'.format(chunkaddr_str, prev_size, hex(size)+bits, hex(fd), hex(bk)))
+                if chunkaddr in fastchunk:
+                    msg = "\033[1;34m Freed \033[0m"
+                    chunkaddr_str = blue(hex(chunkaddr))
+                    print('{:<32}0x{:<17x}{:<102}{:<18}{:<18}'.format(chunkaddr_str, prev_size, hex(size)+bits, hex(fd), hex(bk)))
+                else:
+                    msg = "\033[1;34m Freed \033[0m"
+                    chunkaddr_str = blue(hex(chunkaddr), "bold")
+                    print('{:<32}0x{:<17x}{:<102}{:<18}{:<18}'.format(chunkaddr_str, prev_size, hex(size)+bits, hex(fd), hex(bk)))
             chunkaddr = chunkaddr + (size & 0xfffffffffffffff8)
 
             if chunkaddr > top["addr"] :
