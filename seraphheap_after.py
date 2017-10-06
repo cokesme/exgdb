@@ -539,6 +539,7 @@ def ci(victim):
         print("Can't access memory")
 
 def cix(victim):
+    import pdb
     global fastchunk
     if capsize == 0 :
         arch = getarch()
@@ -551,6 +552,7 @@ def cix(victim):
             lst = []
             getheaplist(lst)
             chunkaddr = lst[victim]
+        pdb.set_trace()
         cmd = "x/" + word + hex(chunkaddr)
         prev_size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
         cmd = "x/" + word + hex(chunkaddr + capsize*1)
@@ -621,14 +623,14 @@ def cix(victim):
                     print(blue("bkNS") + yellow(hex(chunkaddr + capsize*5), "bold") + " --> " + white(hex(bk_nextsize)))
         if used_flag:
             if next_size_flag:
-                gdb.execute("ix " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-2)))
+                gdb.execute("tel " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-2)))
             else:
-                gdb.execute("ix " + hex(chunkaddr+capsize*2) + " " + hex(int(aligned_size/capsize-2)))
+                gdb.execute("tel " + hex(chunkaddr+capsize*2) + " " + hex(int(aligned_size/capsize-2)))
         else:
             if next_size_flag:
-                gdb.execute("ix " + hex(chunkaddr+capsize*6) + " " + hex(int(aligned_size/capsize-2)))
+                gdb.execute("tel " + hex(chunkaddr+capsize*6) + " " + hex(int(aligned_size/capsize-2)))
             else:
-                gdb.execute("ix " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-2)))
+                gdb.execute("tel " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-2)))
     except :
         print("Can't access memory")
 
