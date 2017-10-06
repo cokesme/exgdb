@@ -499,8 +499,6 @@ def ci(victim):
         #print("\033[32mis_mmap :\033[37m %x                    " % (size & 2) )
         #print("\033[32mnon_mainarea :\033[37m %x                     " % (size & 4) )
         unlinkable_flag = 0
-        import pdb
-        pdb.set_trace()
         if not status:
             #print("\033[32mfd :\033[37m 0x%x                  " % fd)
             #print("\033[32mbk :\033[37m 0x%x                  " % bk)
