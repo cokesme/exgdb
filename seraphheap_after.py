@@ -540,90 +540,17 @@ def ci(victim):
             gdb.execute("infox " + hex(unlinkable_result[0]))
             sys.stdout.write(green("BK->fd: "))
             gdb.execute("infox " + hex(unlinkable_result[1]))
+        return {'chunkaddr': chunkaddr, 'used_flag': used_flag, 'next_size_flag':next_size_flag, 'aligned_size': aligned_size}
     except :
         print("Can't access memory")
 
 def cix(victim):
-    global fastchunk
-    if capsize == 0 :
-        arch = getarch()
-    chunkaddr = victim
-    try :
-        if not get_heap_info() :
-            print("Can't find heap info")
-            return
-        if(victim < 100):
-            lst = []
-            getheaplist(lst)
-            chunkaddr = lst[victim]
-        cmd = "x/" + word + hex(chunkaddr)
-        prev_size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        cmd = "x/" + word + hex(chunkaddr + capsize*1)
-        size = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        cmd = "x/" + word + hex(chunkaddr + capsize*2)
-        fd = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        cmd = "x/" + word + hex(chunkaddr + capsize*3)
-        bk = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        cmd = "x/" + word + hex(chunkaddr + (size & 0xfffffffffffffff8) + capsize)
-        nextsize = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        status = nextsize & 1
-        used_flag = 0
-        fast_flag = 0
-        unlinkable_result = []
-        if status:
-            if chunkaddr in fastchunk :
-                fast_flag = 1
-                used_flag = 0
-            else :
-                used_flag = 1
-        else :
-            used_flag = 0
-            unlinkable_result = new_unlinkable(chunkaddr,fd,bk)
-        #        print("==================================================================")
-        aligned_size = size & 0xfffffffffffffff8
-        NM = size & 4
-        IM = size & 2
-        PI = size & 1
-        if(used_flag == 1):
-            print(green("prev| ", "bold") + yellow(hex(chunkaddr), "bold") + " --> " + white(hex(prev_size)))
-            print(green("size| ", "bold") + yellow(hex(chunkaddr+capsize), "bold") + " --> " + white(hex(aligned_size)) + yellow("|") + red(str(NM), "bold") + yellow("|") + green(str(IM), "bold") + yellow("|") + blue(str(PI), "bold") + yellow("|"))
-        else:
-            if(fast_flag == 0):
-                print(blue("prev| ", "bold") + yellow(hex(chunkaddr), "bold") + " --> " + white(hex(prev_size)))
-                print(blue("size| ", "bold") + yellow(hex(chunkaddr+capsize), "bold") + " --> " + white(hex(aligned_size)) + yellow("|") + red(str(NM), "bold") + yellow("|") + green(str(IM), "bold") + yellow("|") + blue(str(PI), "bold") + yellow("|"))
-            else:
-                print(blue("prev| ") + yellow(hex(chunkaddr), "bold") + " --> " + white(hex(prev_size)))
-                print(blue("size| ") + yellow(hex(chunkaddr+capsize), "bold") + " --> " + white(hex(aligned_size)) + yellow("|") + red(str(NM), "bold") + yellow("|") + green(str(IM), "bold") + yellow("|") + blue(str(PI), "bold") + yellow("|"))
-        if not status :
-            fd_str = white(hex(fd))
-            bk_str = white(hex(bk))
-            if(len(unlinkable_result) == 2):
-                if(unlinkable_result[0] != 1):
-                    fd_str += green(" [Unlinkable: *" + hex(unlinkable_result[0]) + "]")
-                    bk_str += green(" [Unlinkable: *" + hex(unlinkable_result[1]) + "]")
-            if(fast_flag == 0):
-                print(blue(" fd | ", "bold") + yellow(hex(chunkaddr + capsize*2), "bold") + " --> " + fd_str)
-                print(blue(" bk | ", "bold") + yellow(hex(chunkaddr + capsize*3), "bold") + " --> " + bk_str)
-            else:
-                print(blue(" fd | ") + yellow(hex(chunkaddr + capsize*2), "bold") + " --> " + fd_str)
-                print(blue(" bk | ") + yellow(hex(chunkaddr + capsize*3), "bold") + " --> " + bk_str)
-        next_size_flag = False
-        if size >= 512*(capsize/4) :
-            next_size_flag = True
-            cmd = "x/" + word + hex(chunkaddr + capsize*4)
-            fd_nextsize = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-            cmd = "x/" + word + hex(chunkaddr + capsize*5)
-            bk_nextsize = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-            if(used_flag == 1):
-                print(green("fdNS|", "bold") + yellow(hex(chunkaddr + capsize*4), "bold") + " --> " + white(hex(fd_nextsize)))
-                print(green("bkNS|", "bold") + yellow(hex(chunkaddr + capsize*5), "bold") + " --> " + white(hex(bk_nextsize)))
-            else:
-                if(fast_flag == 0):
-                    print(blue("fdNS", "bold") + yellow(hex(chunkaddr + capsize*4), "bold") + " --> " + white(hex(fd_nextsize)))
-                    print(blue("bkNS", "bold") + yellow(hex(chunkaddr + capsize*5), "bold") + " --> " + white(hex(bk_nextsize)))
-                else:
-                    print(blue("fdNS") + yellow(hex(chunkaddr + capsize*4), "bold") + " --> " + white(hex(fd_nextsize)))
-                    print(blue("bkNS") + yellow(hex(chunkaddr + capsize*5), "bold") + " --> " + white(hex(bk_nextsize)))
+    try:
+        res = ci(victim)
+        chunkaddr = res['chunkaddr']
+        used_flag = res['used_flag']
+        next_size_flag = res['next_size_flag']
+        aligned_size = res['aligned_size']
         if used_flag:
             if next_size_flag:
                 gdb.execute("tel " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-2)))
