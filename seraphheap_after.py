@@ -459,7 +459,8 @@ def ci(victim):
         bk = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
         cmd = "x/" + word + hex(chunkaddr + (size & 0xfffffffffffffff8) + capsize)
         nextsize = int(gdb.execute(cmd,to_string=True).split(":")[1].strip(),16)
-        status = nextsize & 1    
+        aligned_size = size & 0xfffffffffffffff8
+        status = aligned_size & 1    
         #print("==================================")
         #print("            Chunk info            ")
         #print("==================================")
@@ -481,7 +482,6 @@ def ci(victim):
             #print("==================================================================")
         #print("\033[32mprev_size :\033[37m 0x%x                  " % prev_size)
         #print("\033[32msize :\033[37m 0x%x                  " % (size & 0xfffffffffffffff8))
-        aligned_size = size & 0xfffffffffffffff8
         NM = size & 4
         IM = size & 2
         PI = size & 1
@@ -499,7 +499,9 @@ def ci(victim):
         #print("\033[32mis_mmap :\033[37m %x                    " % (size & 2) )
         #print("\033[32mnon_mainarea :\033[37m %x                     " % (size & 4) )
         unlinkable_flag = 0
-        if  not status :
+        import pdb
+        pdb.set_trace()
+        if not status:
             #print("\033[32mfd :\033[37m 0x%x                  " % fd)
             #print("\033[32mbk :\033[37m 0x%x                  " % bk)
             fd_str = white(hex(fd))
