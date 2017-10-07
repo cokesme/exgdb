@@ -553,14 +553,14 @@ def cix(victim):
         aligned_size = res['aligned_size']
         if used_flag:
             if next_size_flag:
-                gdb.execute("tel " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-2)))
+                gdb.execute("tel " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-4)))
             else:
                 gdb.execute("tel " + hex(chunkaddr+capsize*2) + " " + hex(int(aligned_size/capsize-2)))
         else:
             if next_size_flag:
-                gdb.execute("tel " + hex(chunkaddr+capsize*6) + " " + hex(int(aligned_size/capsize-2)))
+                gdb.execute("tel " + hex(chunkaddr+capsize*6) + " " + hex(int(aligned_size/capsize-6)))
             else:
-                gdb.execute("tel " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-2)))
+                gdb.execute("tel " + hex(chunkaddr+capsize*4) + " " + hex(int(aligned_size/capsize-4)))
     except :
         print("Can't access memory")
 
