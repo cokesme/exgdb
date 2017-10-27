@@ -46,7 +46,7 @@ Function list
 How to use
 ----------
 
-* tel
+* tel  
 アドレスの中身を調査する  
 (telescopeコマンドの改良版。  
 一つのアドレスのみを調べたい場合に、"telescope [address] 1"の"1"の入力を省略可能。)  
