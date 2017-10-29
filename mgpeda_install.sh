@@ -6,8 +6,9 @@ if test ! -e ./mgpeda_install.sh ;then
 fi
 if test ! "$(which gdb)" ;then
     touch $HOME/.gdbinit
-    apt-get -y install gdb
+    apt -y upgrade gdb
 fi
+now=$(pwd)
 #apt-get -y install libc6-dbg
 #apt-get -y install libc6-dbg:i386
 if test ! -e $HOME/peda/ ;then
@@ -72,8 +73,21 @@ sed -i -e "s/─/=/g" $HOME/peda/lib/utils.py
 sed -i -e "s@Copyright (C) 2012 Long Le Dinh <longld at vnsecurity.net>@Copyright (C) 2012 Long Le Dinh <longld at vnsecurity.net> and \n#       Copyright (C) 2017 Taisei Miyagawa <miyagaw61 at https://miyagaw61/github.io>\n#       detail: mgpeda/LICENSE@g" $HOME/peda/mgpeda/mgpeda.py
 if test ! -e $HOME/peda/mgpeda/lib ;then
     mkdir $HOME/peda/mgpeda/lib
-    git clone https://github.com/miyagaw61/enert $HOME/peda/mgpeda/lib/enert
 fi
+git clone https://github.com/miyagaw61/enert $HOME/peda/mgpeda/lib/tmp
+cd $HOME/peda/mgpeda/lib/tmp
+python setup.py install
+python2 setup.py install
+python3 setup.py install
+cd $now
+mv $HOME/peda/mgpeda/lib/tmp/enert $HOME/peda/mgpeda/lib/enert
+rm -rf $HOME/peda/mgpeda/lib/tmp
+git clone https://github.com/Qix-/better-exceptions $HOME/peda/mgpeda/lib/tmp
+mv $HOME/peda/mgpeda/lib/tmp/better_exceptions $HOME/peda/mgpeda/lib/better_exceptions
+rm -rf $HOME/peda/mgpeda/lib/tmp
+git clone https://github.com/chrippa/backports.shutil_get_terminal_size $HOME/peda/mgpeda/lib/tmp
+mv $HOME/peda/mgpeda/lib/tmp/backports $HOME/peda/mgpeda/lib/backports
+rm -rf $HOME/peda/mgpeda/lib/tmp
 sed -i -e "s@\"/lib/\")@\"/lib/\")\nfrom enert import \*@g" $HOME/peda/mgpeda/mgpeda.py
 echo -n "cp -a ./mggdbinit $HOME/.gdbinit [y/n] : "
 read ans
@@ -82,7 +96,7 @@ case $ans in
         if test -e $HOME/.gdbinit ;then
             cp -a $HOME/.gdbinit $HOME/.gdbinit.bak
         fi
-		cp -a "$(pwd)"/mggdbinit $HOME/.gdbinit ;;
+		cp -a "$now"/mggdbinit $HOME/.gdbinit ;;
 	N | NO | n | no)
 		echo "You have to write mggdbinit -> $HOME/.gdbinit" ;;
 	*)
