@@ -1,23 +1,25 @@
-# mgpeda - extension plugins for the gdb-peda&Pwngdb.  
+# Exgdb - Extension for GDB
 
 [![Twitter](https://imgur.com/Ibo0Twr.png)](https://twitter.com/miyagaw61)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://choosealicense.com/licenses/mit/)
 , GPL-3.0, Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 
+**開発中です**
+
 gdb-peda,Pwngdbの拡張プラグインです。  
 **元々のpedaのソースコードは改造していないため、環境を壊すことはありません。**  
-**mgpedaを使いたくなくなったら~/.gdbinitからsource ~/peda/mgpeda/mgpeda.pyとsource ~/Pwngdb/angelheap/mgpeda/gdbinit.pyを削除するだけで大丈夫です。**  
+**exgdbを使いたくなくなったら~/.gdbinitからsource ~/peda/exgdb/exgdb.pyとsource ~/Pwngdb/angelheap/exgdb/gdbinit.pyを削除するだけで大丈夫です。**  
 
 How to install
 --------------
 
-apt-get -y install gdb  
-cd $HOME/Downloads  
-git clone https://github.com/miyagaw61/mgpeda.git  
-cd mgpeda  
-./mgpeda_install.sh  
+```
+git clone https://github.com/miyagaw61/exgdb.git /path/to/exgdb
+cd /path/to/exgdb  
+sudo ./install.sh  
+```
 
-※最後の"cp -a mggdbinit $HOME/.gdbinit [y/n]"という質問にyと答えると、現在の.gdbinitが上書きされてしまいます。nと答えた場合は自分で追記してください。（一応$HOME/.gdbinit.bakという名前でバックアップはとるようになっています）
+※最後の"cp -a exgdbinit $HOME/.gdbinit [y/n]"という質問にyと答えると、現在の.gdbinitが上書きされてしまいます。nと答えた場合は自分で追記してください。（一応$HOME/.gdbinit.bakという名前でバックアップはとるようになっています）
 ※うまくいかない場合は~/.gdbinitの最後のendを削除してendを一つにするとうまくいく場合もあるようです。
 
 Function list
